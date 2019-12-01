@@ -2,7 +2,7 @@
 
 ## Setup
 
-* Run below to startup the microservice:
+* Run below to start the microservice:
 
 For Linux:
 ```bash
