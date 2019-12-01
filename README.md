@@ -23,51 +23,37 @@ gradlew.bat run
 * Create new user named "Nijat":
 > This returns created user id -> 1
 ```bash
-curl --request POST
-  --url http://localhost:8081/users/create
-  --header 'Content-Type: application/json'
-  --data '{"name":"Nijat"}'
+curl --request POST --url http://localhost:8081/users/create --header 'Content-Type: application/json' --data '{"name":"Nijat"}'
 ```
 
 * Create new GBP account for user id 1 ("Nijat" user):
 > This returns created account id -> 1
 ```bash
-curl --request POST
-  --url http://localhost:8081/users/accounts/create
-  --header 'Content-Type: application/json'
-  --data '{"userId" : 1,"currency" : "GBP"}'
+curl --request POST --url http://localhost:8081/users/accounts/create --header 'Content-Type: application/json' --data '{"userId" : 1,"currency" : "GBP"}'
 ```
 
 * Create new simple Revolut payment transaction for account id 1 to increase balance by 10 pounds:
 > This returns created transaction id -> 1
 ```bash
-curl --request POST
-  --url http://localhost:8082/transactions/create
-  --header 'Content-Type: application/json'
-  --data '{"accountId":1,"reference" : "SomeBankPayment","transactionType":"REVOLUT_SIMPLE","transactionAction":"INCREASE","amount":10.00,"currency":"GBP"}'
+curl --request POST --url http://localhost:8082/transactions/create --header 'Content-Type: application/json' --data '{"accountId":1,"reference" : "SomeBankPayment","transactionType":"REVOLUT_SIMPLE","transactionAction":"INCREASE","amount":10.00,"currency":"GBP"}'
 ```
 
 * Get the details of transaction 1 to learn its status:
 
 ```bash
-curl --request GET
-  --url http://localhost:8082/transactions/transaction-id/1
+curl --request GET --url http://localhost:8082/transactions/transaction-id/1
 ```
 
 * Get the details of user 1 with its account to learn the balance:
 
 ```bash
-curl --request GET 
-  --url http://localhost:8081/users/user-id/1 
+curl --request GET  --url http://localhost:8081/users/user-id/1 
 ```
 
 
 * You can create new simple Revolut payment transaction for account id 1 to decrease balance by 5 pounds:
 ```bash
-curl --request POST
-  --url http://localhost:8082/transactions/create
-  --header 'Content-Type: application/json'
-  --data '{"accountId":1,"reference" : "SomeBankPayment","transactionType":"REVOLUT_SIMPLE","transactionAction":"DECREASE","amount":5.00,"currency":"GBP"}'
+curl --request POST --url http://localhost:8082/transactions/create --header 'Content-Type: application/json' --data '{"accountId":1,"reference" : "SomeBankPayment","transactionType":"REVOLUT_SIMPLE","transactionAction":"DECREASE","amount":5.00,"currency":"GBP"}'
 ```
 
 ## Some underlying technologies
