@@ -1,5 +1,6 @@
 package com.revolut.revoluttransactionmanager;
 
+import org.apache.activemq.broker.BrokerService;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -14,14 +15,18 @@ import org.slf4j.LoggerFactory;
 
 public class Launcher {
 
-    private static Logger LOG = LoggerFactory.getLogger(Launcher.class);
+    private final static Logger LOG = LoggerFactory.getLogger(Launcher.class);
 
     public static void main(String[] args) {
-        Server server = new Server(8081);
-        server.setHandler(getServletContextHandler());
-
+        Server server = new Server(8082);
         try {
+            server.setHandler(getServletContextHandler());
             server.start();
+
+            BrokerService broker = new BrokerService();
+            broker.addConnector("tcp://localhost:61616");
+            broker.start();
+
             server.join();
         } catch (Exception ex) {
             LOG.error("Failed to start embedded jetty server.", ex);
