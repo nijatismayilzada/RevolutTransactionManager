@@ -82,3 +82,4 @@ curl --request POST
 
 ## How it works
 
+![Image of architecture](https://raw.githubusercontent.com/nijatismayilzada/RevolutTransactionManager/master/revolut.jpg?token=ABVDDEQ3NQLF2V7BDVLE4SC54Q6V6)
