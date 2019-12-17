@@ -5,7 +5,6 @@ import com.revolut.revoluttransactionmanager.model.exception.SQLRuntimeException
 import com.revolut.revoluttransactionmanager.model.exception.TransactionRuntimeException;
 import com.revolut.revoluttransactionmanager.model.request.TransactionRequest;
 import com.revolut.revoluttransactionmanager.model.transaction.Transaction;
-import com.revolut.revoluttransactionmanager.model.transaction.TransactionAction;
 import com.revolut.revoluttransactionmanager.model.transaction.TransactionState;
 import com.revolut.revoluttransactionmanager.model.transaction.TransactionType;
 import org.jvnet.hk2.annotations.Service;
@@ -22,10 +21,10 @@ import java.util.Currency;
 @Service
 public class TransactionRepository {
     private static final String INSERT_TRANSACTION =
-            "insert into transaction(account_id, reference, transaction_state, state_updated_at, transaction_type, transaction_action, currency, amount) values(?, ?, ?, ?, ?, ?, ?, ?)";
+            "insert into transaction(account_id, reference, transaction_state, state_updated_at, transaction_type, currency, amount) values(?, ?, ?, ?, ?, ?, ?)";
 
     private static final String SELECT_TRANSACTION_BY_ID =
-            "select transaction_id, account_id, reference, transaction_state, state_updated_at, transaction_type, transaction_action, currency, amount from transaction where transaction_id = ? ";
+            "select transaction_id, account_id, reference, transaction_state, state_updated_at, transaction_type, currency, amount from transaction where transaction_id = ? ";
 
     private static final String UPDATE_TRANSACTION_STATE = "update transaction set transaction_state = ?, state_updated_at = ? where transaction_id = ?";
 
@@ -44,9 +43,8 @@ public class TransactionRepository {
             statement.setString(3, TransactionState.CREATED.name());
             statement.setTimestamp(4, Timestamp.from(Instant.now()));
             statement.setString(5, transactionRequest.getTransactionType().name());
-            statement.setString(6, transactionRequest.getTransactionAction().name());
-            statement.setString(7, transactionRequest.getCurrency().getCurrencyCode());
-            statement.setBigDecimal(8, transactionRequest.getAmount());
+            statement.setString(6, transactionRequest.getCurrency().getCurrencyCode());
+            statement.setBigDecimal(7, transactionRequest.getAmount());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             resultSet.next();
@@ -72,9 +70,8 @@ public class TransactionRepository {
                 transaction.setTransactionState(TransactionState.valueOf(resultSet.getString(4)));
                 transaction.setStateUpdatedAt(resultSet.getTimestamp(5).toInstant());
                 transaction.setTransactionType(TransactionType.valueOf(resultSet.getString(6)));
-                transaction.setTransactionAction(TransactionAction.valueOf(resultSet.getString(7)));
-                transaction.setCurrency(Currency.getInstance(resultSet.getString(8)));
-                transaction.setAmount(resultSet.getBigDecimal(9));
+                transaction.setCurrency(Currency.getInstance(resultSet.getString(7)));
+                transaction.setAmount(resultSet.getBigDecimal(8));
             }
 
             return transaction;

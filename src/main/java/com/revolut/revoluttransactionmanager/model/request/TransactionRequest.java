@@ -1,6 +1,5 @@
 package com.revolut.revoluttransactionmanager.model.request;
 
-import com.revolut.revoluttransactionmanager.model.transaction.TransactionAction;
 import com.revolut.revoluttransactionmanager.model.transaction.TransactionType;
 
 import java.math.BigDecimal;
@@ -11,7 +10,6 @@ public class TransactionRequest {
     private long accountId;
     private String reference;
     private TransactionType transactionType;
-    private TransactionAction transactionAction;
     private BigDecimal amount;
     private Currency currency;
 
@@ -42,14 +40,6 @@ public class TransactionRequest {
         this.transactionType = transactionType;
     }
 
-    public TransactionAction getTransactionAction() {
-        return transactionAction;
-    }
-
-    public void setTransactionAction(TransactionAction transactionAction) {
-        this.transactionAction = transactionAction;
-    }
-
     public BigDecimal getAmount() {
         return amount;
     }
@@ -74,14 +64,13 @@ public class TransactionRequest {
         return accountId == that.accountId &&
                 Objects.equals(reference, that.reference) &&
                 transactionType == that.transactionType &&
-                transactionAction == that.transactionAction &&
                 Objects.equals(amount, that.amount) &&
                 Objects.equals(currency, that.currency);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountId, reference, transactionType, transactionAction, amount, currency);
+        return Objects.hash(accountId, reference, transactionType, amount, currency);
     }
 
     @Override
@@ -90,7 +79,6 @@ public class TransactionRequest {
                 "accountId=" + accountId +
                 ", reference='" + reference + '\'' +
                 ", transactionType=" + transactionType +
-                ", transactionAction=" + transactionAction +
                 ", amount=" + amount +
                 ", currency=" + currency +
                 '}';

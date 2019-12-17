@@ -3,7 +3,6 @@ package com.revolut.revoluttransactionmanager.repository;
 import com.revolut.revoluttransactionmanager.config.JdbcConnection;
 import com.revolut.revoluttransactionmanager.model.request.TransactionRequest;
 import com.revolut.revoluttransactionmanager.model.transaction.Transaction;
-import com.revolut.revoluttransactionmanager.model.transaction.TransactionAction;
 import com.revolut.revoluttransactionmanager.model.transaction.TransactionState;
 import com.revolut.revoluttransactionmanager.model.transaction.TransactionType;
 import com.revolut.revoluttransactionmanager.repository.testutil.ITHelper;
@@ -36,7 +35,7 @@ public class TransactionRepositoryIT {
 
     @Test
     public void createTransaction_giveValidTransaction_canInsertItSuccessfully() throws SQLException {
-        TransactionRequest transactionRequest = TestHelper.getTransactionRequest(ACCOUNT_ID, BigDecimal.TEN, Currency.getInstance("GBP"), REFERENCE, TransactionAction.INCREASE, TransactionType.REVOLUT_SIMPLE);
+        TransactionRequest transactionRequest = TestHelper.getTransactionRequest(ACCOUNT_ID, BigDecimal.TEN, Currency.getInstance("GBP"), REFERENCE, TransactionType.REVOLUT_SIMPLE_INCREASE);
 
         long transactionId = transactionRepository.createTransaction(transactionRequest);
 
@@ -48,13 +47,12 @@ public class TransactionRepositoryIT {
         assertThat(resultSet.getBigDecimal("amount").compareTo(BigDecimal.TEN), is(0));
         assertThat(resultSet.getString("currency"), is("GBP"));
         assertThat(resultSet.getString("reference"), is(REFERENCE));
-        assertThat(resultSet.getString("transaction_action"), is(TransactionAction.INCREASE.name()));
-        assertThat(resultSet.getString("transaction_type"), is(TransactionType.REVOLUT_SIMPLE.name()));
+        assertThat(resultSet.getString("transaction_type"), is(TransactionType.REVOLUT_SIMPLE_INCREASE.name()));
     }
 
     @Test
     public void getTransactionById_giveExistingTransaction_canFetchIt() throws SQLException {
-        long transactionId = itHelper.createTransaction(ACCOUNT_ID, REFERENCE, TransactionType.REVOLUT_SIMPLE, TransactionAction.INCREASE, Currency.getInstance("GBP"), BigDecimal.TEN);
+        long transactionId = itHelper.createTransaction(ACCOUNT_ID, REFERENCE, TransactionType.REVOLUT_SIMPLE_INCREASE, Currency.getInstance("GBP"), BigDecimal.TEN);
 
         Transaction transaction = transactionRepository.getTransactionById(transactionId);
         assertThat(transaction.getTransactionId(), is(transactionId));
@@ -69,7 +67,7 @@ public class TransactionRepositoryIT {
 
     @Test
     public void updateTransaction_giveExistingTransaction_canUpdateItsState() throws SQLException {
-        long transactionId = itHelper.createTransaction(ACCOUNT_ID, REFERENCE, TransactionType.REVOLUT_SIMPLE, TransactionAction.INCREASE, Currency.getInstance("GBP"), BigDecimal.TEN);
+        long transactionId = itHelper.createTransaction(ACCOUNT_ID, REFERENCE, TransactionType.REVOLUT_SIMPLE_INCREASE, Currency.getInstance("GBP"), BigDecimal.TEN);
 
         transactionRepository.updateTransaction(transactionId, TransactionState.FAILED);
 

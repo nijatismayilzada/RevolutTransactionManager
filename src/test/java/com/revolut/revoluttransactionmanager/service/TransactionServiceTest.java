@@ -1,7 +1,6 @@
 package com.revolut.revoluttransactionmanager.service;
 
 import com.revolut.revoluttransactionmanager.model.request.TransactionRequest;
-import com.revolut.revoluttransactionmanager.model.transaction.TransactionAction;
 import com.revolut.revoluttransactionmanager.model.transaction.TransactionType;
 import com.revolut.revoluttransactionmanager.repository.TransactionRepository;
 import com.revolut.revoluttransactionmanager.util.TestHelper;
@@ -44,7 +43,7 @@ public class TransactionServiceTest {
 
     @Test
     public void createTransaction_givenCreateTransactionRequest_processesSuccessfully() throws JMSException {
-        TransactionRequest transactionRequest = TestHelper.getTransactionRequest(111, BigDecimal.TEN, Currency.getInstance("GBP"), "testing", TransactionAction.INCREASE, TransactionType.REVOLUT_SIMPLE);
+        TransactionRequest transactionRequest = TestHelper.getTransactionRequest(111, BigDecimal.TEN, Currency.getInstance("GBP"), "testing", TransactionType.REVOLUT_SIMPLE_INCREASE);
         when(transactionRepository.createTransaction(transactionRequest)).thenReturn(222L);
 
         transactionService.createTransaction(transactionRequest);

@@ -42,7 +42,7 @@ public class TransactionResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("transaction-id/{transactionId}")
-    public Response getUserById(@PathParam("transactionId") long transactionId) {
+    public Response getTransactionById(@PathParam("transactionId") long transactionId) {
         try {
             return Response.ok(transactionService.getTransactionById(transactionId)).build();
         } catch (Exception ex) {
