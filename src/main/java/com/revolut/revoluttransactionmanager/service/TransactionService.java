@@ -6,6 +6,7 @@ import com.revolut.revoluttransactionmanager.model.request.TransactionRequest;
 import com.revolut.revoluttransactionmanager.model.transaction.Transaction;
 import com.revolut.revoluttransactionmanager.model.transaction.TransactionEvent;
 import com.revolut.revoluttransactionmanager.model.transaction.TransactionState;
+import com.revolut.revoluttransactionmanager.model.transaction.Transactions;
 import com.revolut.revoluttransactionmanager.repository.TransactionRepository;
 import org.apache.activemq.command.ActiveMQDestination;
 import org.apache.activemq.command.ActiveMQTextMessage;
@@ -55,12 +56,18 @@ public class TransactionService implements MessageListener {
         return transactionRepository.getTransactionById(transactionId);
     }
 
+    public Transactions getTransactionsByAccountId(long accountId) {
+        return transactionRepository.getTransactionsByAccountId(accountId);
+    }
+
     @Override
     public void onMessage(Message message) {
         try {
             TextMessage textMessage = (TextMessage) message;
             TransactionEvent transactionEvent = new ObjectMapper().readValue(textMessage.getText(), TransactionEvent.class);
 
+            //Each of the queues should have their own listener.
+            //To keep things simple with Jersey and HK2 context, for now transaction service handles both.
             ActiveMQDestination destination = (ActiveMQDestination) textMessage.getJMSDestination();
             if (destination.getPhysicalName().equals((messageConsumer.getQueueNameCompleted()))) {
                 transactionRepository.updateTransaction(transactionEvent.getTransactionId(), TransactionState.COMPLETED);

@@ -5,6 +5,7 @@ import com.revolut.revoluttransactionmanager.model.request.TransactionRequest;
 import com.revolut.revoluttransactionmanager.model.transaction.Transaction;
 import com.revolut.revoluttransactionmanager.model.transaction.TransactionState;
 import com.revolut.revoluttransactionmanager.model.transaction.TransactionType;
+import com.revolut.revoluttransactionmanager.model.transaction.Transactions;
 import com.revolut.revoluttransactionmanager.repository.testutil.ITHelper;
 import com.revolut.revoluttransactionmanager.util.TestHelper;
 import org.junit.Before;
@@ -20,15 +21,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class TransactionRepositoryIT {
 
-    public static final long ACCOUNT_ID = 111L;
-    public static final String REFERENCE = "test";
-    private JdbcConnection jdbcConnection;
+    private static final long ACCOUNT_ID = 111L;
+    private static final String REFERENCE = "test";
     private TransactionRepository transactionRepository;
     private ITHelper itHelper;
 
     @Before
     public void setUp() throws Exception {
-        jdbcConnection = new JdbcConnection();
+        JdbcConnection jdbcConnection = new JdbcConnection();
         transactionRepository = new TransactionRepository(jdbcConnection);
         itHelper = new ITHelper(jdbcConnection);
     }
@@ -51,7 +51,7 @@ public class TransactionRepositoryIT {
     }
 
     @Test
-    public void getTransactionById_giveExistingTransaction_canFetchIt() throws SQLException {
+    public void getTransactionById_givenExistingTransaction_canFetchIt() throws SQLException {
         long transactionId = itHelper.createTransaction(ACCOUNT_ID, REFERENCE, TransactionType.REVOLUT_SIMPLE_INCREASE, Currency.getInstance("GBP"), BigDecimal.TEN);
 
         Transaction transaction = transactionRepository.getTransactionById(transactionId);
@@ -60,10 +60,21 @@ public class TransactionRepositoryIT {
         assertThat(transaction.getAmount().compareTo(BigDecimal.TEN), is(0));
         assertThat(transaction.getCurrency().getCurrencyCode(), is("GBP"));
         assertThat(transaction.getReference(), is(REFERENCE));
-
-
     }
 
+    @Test
+    public void getTransactionsByAccountId_givenExistingTransaction_canFetchItByAccountId() throws SQLException {
+        itHelper.clearTransactions();
+        long transactionId = itHelper.createTransaction(ACCOUNT_ID, REFERENCE, TransactionType.REVOLUT_SIMPLE_INCREASE, Currency.getInstance("GBP"), BigDecimal.TEN);
+
+        Transactions transactions = transactionRepository.getTransactionsByAccountId(ACCOUNT_ID);
+        assertThat(transactions.getTransactionList().size(), is(1));
+        assertThat(transactions.getTransactionList().get(0).getTransactionId(), is(transactionId));
+        assertThat(transactions.getTransactionList().get(0).getAccountId(), is(ACCOUNT_ID));
+        assertThat(transactions.getTransactionList().get(0).getAmount().compareTo(BigDecimal.TEN), is(0));
+        assertThat(transactions.getTransactionList().get(0).getCurrency().getCurrencyCode(), is("GBP"));
+        assertThat(transactions.getTransactionList().get(0).getReference(), is(REFERENCE));
+    }
 
     @Test
     public void updateTransaction_giveExistingTransaction_canUpdateItsState() throws SQLException {

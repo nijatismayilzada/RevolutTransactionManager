@@ -51,4 +51,16 @@ public class TransactionResource {
         }
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("account-id/{accountId}")
+    public Response getTransactionsByAccountId(@PathParam("accountId") long accountId) {
+        try {
+            return Response.ok(transactionService.getTransactionsByAccountId(accountId)).build();
+        } catch (Exception ex) {
+            LOG.error("Failed to get transactions for account id: {}", accountId, ex);
+            return Response.serverError().build();
+        }
+    }
+
 }

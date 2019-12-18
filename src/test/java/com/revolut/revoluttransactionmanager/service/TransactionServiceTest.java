@@ -12,13 +12,15 @@ import javax.jms.Message;
 import java.math.BigDecimal;
 import java.util.Currency;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class TransactionServiceTest {
-    private static final int TRANSACTION_ID = 111;
+    private static final long TRANSACTION_ID = 222L;
     private TransactionRepository transactionRepository;
     private MessageProducer messageProducer;
     private MessageConsumer messageConsumer;
@@ -44,10 +46,11 @@ public class TransactionServiceTest {
     @Test
     public void createTransaction_givenCreateTransactionRequest_processesSuccessfully() throws JMSException {
         TransactionRequest transactionRequest = TestHelper.getTransactionRequest(111, BigDecimal.TEN, Currency.getInstance("GBP"), "testing", TransactionType.REVOLUT_SIMPLE_INCREASE);
-        when(transactionRepository.createTransaction(transactionRequest)).thenReturn(222L);
+        when(transactionRepository.createTransaction(transactionRequest)).thenReturn(TRANSACTION_ID);
 
-        transactionService.createTransaction(transactionRequest);
+        long transactionId = transactionService.createTransaction(transactionRequest);
 
+        assertThat(transactionId, is(TRANSACTION_ID));
         verify(transactionRepository).createTransaction(transactionRequest);
         verify(jmsProducer).send(any(Message.class));
 

@@ -45,4 +45,9 @@ public class ITHelper {
         resultSet.next();
         return resultSet.getLong(1);
     }
+
+    public void clearTransactions() throws SQLException {
+        PreparedStatement statement = jdbcConnection.getConnection().prepareStatement("delete from transaction");
+        statement.executeUpdate();
+    }
 }
