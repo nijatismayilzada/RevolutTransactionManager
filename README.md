@@ -101,10 +101,10 @@ curl --request GET  --url http://localhost:8081/users/user-id/1
 ## How it works
 
 ## Create user
-![Image of architecture](https://raw.githubusercontent.com/nijatismayilzada/RevolutTransactionManager/master/revolut.jpg?token=ABVDDEQ3NQLF2V7BDVLE4SC54Q6V6)
+![Image of architecture](https://raw.githubusercontent.com/nijatismayilzada/RevolutTransactionManager/master/revolut-insert-user.jpg?token=ABVDDEQ3NQLF2V7BDVLE4SC54Q6V6)
 ## Create account
-![Image of architecture](https://raw.githubusercontent.com/nijatismayilzada/RevolutTransactionManager/master/revolut.jpg?token=ABVDDEQ3NQLF2V7BDVLE4SC54Q6V6)
+![Image of architecture](https://raw.githubusercontent.com/nijatismayilzada/RevolutTransactionManager/master/revolut-insert-account.jpg?token=ABVDDEQ3NQLF2V7BDVLE4SC54Q6V6)
 ## Simple transaction
-![Image of architecture](https://raw.githubusercontent.com/nijatismayilzada/RevolutTransactionManager/master/revolut.jpg?token=ABVDDEQ3NQLF2V7BDVLE4SC54Q6V6)
+![Image of architecture](https://raw.githubusercontent.com/nijatismayilzada/RevolutTransactionManager/master/revolut-simple-transaction.jpg?token=ABVDDEQ3NQLF2V7BDVLE4SC54Q6V6)
 ## Transfer transaction
-![Image of architecture](https://raw.githubusercontent.com/nijatismayilzada/RevolutTransactionManager/master/revolut.jpg?token=ABVDDEQ3NQLF2V7BDVLE4SC54Q6V6)
+![Image of architecture](https://raw.githubusercontent.com/nijatismayilzada/RevolutTransactionManager/master/revolut-transfer-transaction.jpg?token=ABVDDEQ3NQLF2V7BDVLE4SC54Q6V6)
