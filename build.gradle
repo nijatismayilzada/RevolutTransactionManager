@@ -3,7 +3,7 @@ plugins {
     id 'application'
 }
 
-group 'com.revolut'
+group 'com.thepot'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 11
@@ -33,7 +33,7 @@ dependencies {
 
 jar {
     manifest {
-        attributes "Main-Class": "com.revolut.revoluttransactionmanager.Launcher"
+        attributes "Main-Class": "com.thepot.banktransactionmanager.Launcher"
     }
 
     from {
@@ -41,4 +41,4 @@ jar {
     }
 }
 
-mainClassName = 'com.revolut.revoluttransactionmanager.Launcher'
+mainClassName = 'com.thepot.banktransactionmanager.Launcher'

@@ -1,4 +1,4 @@
-# RevolutTransactionManager
+# BankTransactionManager
 
 ## Setup
 
@@ -15,7 +15,7 @@ gradlew.bat run
 
 * Application starts at 8082 port.
 
-* You also need to get RevolutAccountManager and start that too (that starts at 8081 port): https://github.com/nijatismayilzada/RevolutAccountManager
+* You also need to get BankAccountManager and start that too (that starts at 8081 port): https://github.com/nijatismayilzada/bank-account-manager
 
 
 ## Rest API
@@ -34,10 +34,10 @@ curl --request POST --url http://localhost:8081/users/accounts/create --header '
 ```
 <p>&nbsp;</p>
 
-* Create new simple Revolut payment transaction for account id 1 to increase balance by 10 pounds:
+* Create new simple payment transaction for account id 1 to increase balance by 10 pounds:
 > This returns created transaction id -> 1
 ```bash
-curl --request POST --url http://localhost:8082/transactions/create --header 'Content-Type: application/json' --data '{"accountId":1,"reference" : "SomeBankPayment","transactionType":"REVOLUT_SIMPLE_INCREASE","amount":10.00,"currency":"GBP"}'
+curl --request POST --url http://localhost:8082/transactions/create --header 'Content-Type: application/json' --data '{"accountId":1,"reference" : "SomeBankPayment","transactionType":"SIMPLE_INCREASE","amount":10.00,"currency":"GBP"}'
 ```
 <p>&nbsp;</p>
 
@@ -53,10 +53,10 @@ curl --request GET  --url http://localhost:8081/users/user-id/1
 ```
 <p>&nbsp;</p>
 
-* You can create new simple Revolut payment transaction for account id 1 to decrease balance by 2 pounds:
+* You can create new simple payment transaction for account id 1 to decrease balance by 2 pounds:
 > This returns created transaction id -> 2
 ```bash
-curl --request POST --url http://localhost:8082/transactions/create --header 'Content-Type: application/json' --data '{"accountId":1,"reference" : "SomeBankPayment","transactionType":"REVOLUT_SIMPLE_DECREASE","amount":2.00,"currency":"GBP"}'
+curl --request POST --url http://localhost:8082/transactions/create --header 'Content-Type: application/json' --data '{"accountId":1,"reference" : "SomeBankPayment","transactionType":"SIMPLE_DECREASE","amount":2.00,"currency":"GBP"}'
 ```
 <p>&nbsp;</p>
 
@@ -67,10 +67,10 @@ curl --request POST --url http://localhost:8081/users/accounts/create --header '
 ```
 <p>&nbsp;</p>
 
-* Create new Revolut transfer transaction for moving 3 pounds from account 1 to account 2:
+* Create new transfer transaction for moving 3 pounds from account 1 to account 2:
 > This returns created transaction id -> 3
 ```bash
-curl --request POST --url http://localhost:8082/transactions/create --header 'Content-Type: application/json' --data '{"accountId":1,"reference" : "2","transactionType":"REVOLUT_TRANSFER","amount":3.00,"currency":"GBP"}'
+curl --request POST --url http://localhost:8082/transactions/create --header 'Content-Type: application/json' --data '{"accountId":1,"reference" : "2","transactionType":"TRANSFER","amount":3.00,"currency":"GBP"}'
 ```
 <p>&nbsp;</p>
 
